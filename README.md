@@ -1,4 +1,4 @@
-# automated_attendance
+# Attendance_Viewer
 
 A new Flutter project.
 
