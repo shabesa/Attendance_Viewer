@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
+String getForDate;
 
 class DataScreen extends StatefulWidget {
   static const String id = 'data_screen';
@@ -14,7 +15,7 @@ class DataScreen extends StatefulWidget {
 
 class _DataScreenState extends State<DataScreen> {
   final _auth = FirebaseAuth.instance;
-
+  
   @override
   void initState() {
     super.initState();
@@ -79,7 +80,12 @@ class _DataScreenState extends State<DataScreen> {
                       ),
                     ),
                     FlatButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        setState(() {
+                          getForDate = date;
+                        });
+                        print(Text('Getting data for $date'));
+                      },
                       child: Text(
                         'Get',
                         style: kSendButtonTextStyle,
@@ -89,12 +95,80 @@ class _DataScreenState extends State<DataScreen> {
                 ),
               ),
               SizedBox(
-                height: 24,
+                height: 10,
               ),
+              DataFetch(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void getData() {
+    final stream = _firestore.collection(getForDate).snapshots();
+  }
+}
+
+class DataFetch extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore.collection(getForDate == null ? '0': getForDate).snapshots(),
+      //ignore: missing_return
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        }
+        final data = snapshot.data.docs;
+        List<DataRow> rowData = [];
+
+        for (var content in data) {
+          final studentName = content.data()["Name"];
+          final time = content.data()["Time"];
+          final verification = content.data()["Verification"];
+          final status = content.data()["Status"];
+          print(Text('getting'));
+
+          final row = DataRow(
+            cells: <DataCell>[
+              DataCell(Text(studentName, style: TextStyle(color: Colors.white),)),
+              DataCell(Text(time, style: TextStyle(color: Colors.white),)),
+              DataCell(Text(verification, style: TextStyle(color: Colors.white),)),
+              DataCell(Text(status, style: TextStyle(color: Colors.white),)),
+            ],
+          );
+          rowData.add(row);
+        }
+        return Container(
+          child: Center(
+            child: DataTable(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+              ),
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Text('Name', style: TextStyle(color: Colors.white),),
+                ),
+                DataColumn(
+                  label: Text('Time', style: TextStyle(color: Colors.white),),
+                ),
+                DataColumn(
+                  label: Text('Verifiaction', style: TextStyle(color: Colors.white),),
+                ),
+                DataColumn(
+                  label: Text('Status', style: TextStyle(color: Colors.white),),
+                ),
+              ],
+              rows: rowData,
+            ),
+          ),
+        );
+      },
     );
   }
 }
