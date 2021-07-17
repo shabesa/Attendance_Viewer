@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               SizedBox(
-                height: 24.0,
+                height: 8.0,
               ),
               TextField(
                 obscureText: true,
@@ -64,6 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (value) {
                   password = value;
                 },
+              ),
+              SizedBox(
+                height: 24,
               ),
               RoundedButton(
                 title: 'Log In',

@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
 String getForDate;
+int total = 0;
 
 class DataScreen extends StatefulWidget {
   static const String id = 'data_screen';
@@ -15,7 +16,7 @@ class DataScreen extends StatefulWidget {
 
 class _DataScreenState extends State<DataScreen> {
   final _auth = FirebaseAuth.instance;
-  
+
   @override
   void initState() {
     super.initState();
@@ -98,6 +99,17 @@ class _DataScreenState extends State<DataScreen> {
                 height: 10,
               ),
               DataFetch(),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Total: $total',
+                style: TextStyle(
+                  backgroundColor: Colors.white10,
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ],
           ),
         ),
@@ -110,7 +122,9 @@ class DataFetch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection(getForDate == null ? '0': getForDate).snapshots(),
+      stream: _firestore
+          .collection(getForDate == null ? '0' : getForDate)
+          .snapshots(),
       //ignore: missing_return
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -132,35 +146,65 @@ class DataFetch extends StatelessWidget {
 
           final row = DataRow(
             cells: <DataCell>[
-              DataCell(Text(studentName, style: TextStyle(color: Colors.white),)),
-              DataCell(Text(time, style: TextStyle(color: Colors.white),)),
-              DataCell(Text(verification, style: TextStyle(color: Colors.white),)),
-              DataCell(Text(status, style: TextStyle(color: Colors.white),)),
+              DataCell(Text(
+                studentName,
+                style: TextStyle(color: Colors.white),
+              )),
+              DataCell(Text(
+                time,
+                style: TextStyle(color: Colors.white),
+              )),
+              DataCell(Text(
+                verification,
+                style: TextStyle(color: Colors.white),
+              )),
+              DataCell(Text(
+                status,
+                style: TextStyle(color: Colors.white),
+              )),
             ],
           );
           rowData.add(row);
+          total = rowData.length;
         }
         return Container(
-          child: Center(
-            child: DataTable(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
+          height: 560,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    color: Colors.white10),
+                columns: const <DataColumn>[
+                  DataColumn(
+                    label: Text(
+                      'Name',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Time',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Verifiaction',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Status',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+                rows: rowData,
               ),
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Text('Name', style: TextStyle(color: Colors.white),),
-                ),
-                DataColumn(
-                  label: Text('Time', style: TextStyle(color: Colors.white),),
-                ),
-                DataColumn(
-                  label: Text('Verifiaction', style: TextStyle(color: Colors.white),),
-                ),
-                DataColumn(
-                  label: Text('Status', style: TextStyle(color: Colors.white),),
-                ),
-              ],
-              rows: rowData,
             ),
           ),
         );
