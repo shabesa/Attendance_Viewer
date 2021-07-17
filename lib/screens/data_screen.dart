@@ -104,10 +104,6 @@ class _DataScreenState extends State<DataScreen> {
       ),
     );
   }
-
-  void getData() {
-    final stream = _firestore.collection(getForDate).snapshots();
-  }
 }
 
 class DataFetch extends StatelessWidget {
