@@ -1,3 +1,5 @@
+import 'package:attendance_viewer/components/rounded_button.dart';
+import 'package:attendance_viewer/screens/data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance_viewer/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //final _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   String email;
   String password;
@@ -60,7 +62,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: 'Enter Your Password',
                 ),
                 onChanged: (value) {
-                  email = value;
+                  password = value;
+                },
+              ),
+              RoundedButton(
+                title: 'Log In',
+                color: Colors.lightBlueAccent,
+                onPressed: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  try {
+                    final user = await _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (user != null) {
+                      Navigator.pushNamed(context, DataScreen.id);
+                    }
+                    setState(() {
+                      showSpinner = false;
+                    });
+                  } catch (e) {
+                    print(e);
+                  }
                 },
               ),
             ],
