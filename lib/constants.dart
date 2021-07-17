@@ -17,3 +17,9 @@ const kTextFieldDecoration = InputDecoration(
   filled: true,
   fillColor: Colors.white60,
 );
+
+const kSendButtonTextStyle = TextStyle(
+  color: Colors.lightBlueAccent,
+  fontWeight: FontWeight.bold,
+  fontSize: 18.0,
+);
