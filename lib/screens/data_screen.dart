@@ -84,10 +84,13 @@ class _DataScreenState extends State<DataScreen> {
                     // ignore: deprecated_member_use
                     FlatButton(
                       onPressed: () {
-                        setState(() {
-                          getForDate = date;
-                        });
-                        print(Text('Getting data for $date'));
+                        if (date != getForDate) {
+                          setState(() {
+                            getForDate = date;
+                            total = 0;
+                          });
+                          print(Text('Getting data for $date'));
+                        }
                       },
                       child: Text(
                         'Get',
@@ -101,17 +104,6 @@ class _DataScreenState extends State<DataScreen> {
                 height: 10,
               ),
               DataFetch(),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Total: $total',
-                style: TextStyle(
-                  backgroundColor: Colors.white10,
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
             ],
           ),
         ),
@@ -167,47 +159,63 @@ class DataFetch extends StatelessWidget {
             ],
           );
           rowData.add(row);
-          total = rowData.length;
+          print(Text('$total'));
         }
+        total = rowData.length;
         return Container(
           height: 560,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue),
-                    color: Colors.white10),
-                columns: const <DataColumn>[
-                  DataColumn(
-                    label: Text(
-                      'Name',
-                      style: TextStyle(color: Colors.white),
-                    ),
+          child: Column(
+            children: <Widget>[
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue),
+                        color: Colors.white10),
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Time',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Verifiaction',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Status',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                    rows: rowData,
                   ),
-                  DataColumn(
-                    label: Text(
-                      'Time',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Verifiaction',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Status',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-                rows: rowData,
+                ),
               ),
-            ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Total: $total',
+                style: TextStyle(
+                  backgroundColor: Colors.white10,
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ],
           ),
         );
       },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:attendance_viewer/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -86,6 +87,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   } catch (e) {
                     print(e);
+                    setState(() {
+                      showSpinner = false;
+                    });
+                    Fluttertoast.showToast(
+                      msg: 'Invalid Username or Password',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                    );            
                   }
                 },
               ),
