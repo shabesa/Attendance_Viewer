@@ -80,6 +80,7 @@ class _DataScreenState extends State<DataScreen> {
                         },
                       ),
                     ),
+                    // ignore: deprecated_member_use
                     FlatButton(
                       onPressed: () {
                         setState(() {

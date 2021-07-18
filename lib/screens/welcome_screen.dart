@@ -30,6 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     height: 60.0,
                   ),
                 ),
+                // ignore: deprecated_member_use
                 TypewriterAnimatedTextKit(
                   text: ['Attendance'],
                   textStyle: TextStyle(
