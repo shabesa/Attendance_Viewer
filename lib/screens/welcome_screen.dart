@@ -1,4 +1,5 @@
 import 'package:attendance_viewer/components/rounded_button.dart';
+import 'package:attendance_viewer/screens/about_screen.dart';
 import 'package:attendance_viewer/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -52,6 +53,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.info_outline),
+        onPressed: () {
+          Navigator.pushNamed(context, AboutScreen.id);
+        },
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:attendance_viewer/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:attendance_viewer/screens/about_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -95,12 +96,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
-                    );            
+                    );
                   }
                 },
               ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.info_outline),
+          onPressed: () {
+            Navigator.pushNamed(context, AboutScreen.id);
+          },
         ),
       ),
     );
