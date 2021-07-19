@@ -46,7 +46,8 @@ class _AboutScreenState extends State<AboutScreen> {
               height: 20.0,
               width: 300.0,
               child: Divider(
-                color: Colors.lightBlueAccent,
+                color: Colors.blue[900],
+                thickness: 2,
               ),
             ),
             Card(
@@ -72,6 +73,30 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
               ),
             ),
+            Card(
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: IconButton(
+                  color: Colors.blue,
+                  icon: FaIcon(FontAwesomeIcons.linkedin),
+                  onPressed: () {
+                    setState(() {
+                      _launchURL(
+                          'https://www.linkedin.com/in/k-a-shabesa-ab05751aa/');
+                    });
+                  },
+                ),
+                title: Text(
+                  'K.A.Shabesa',
+                  style: TextStyle(
+                    color: Colors.teal.shade900,
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
