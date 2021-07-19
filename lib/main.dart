@@ -1,3 +1,4 @@
+import 'package:attendance_viewer/screens/about_screen.dart';
 import 'package:attendance_viewer/screens/data_screen.dart';
 import 'package:attendance_viewer/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class AttendanceViewer extends StatelessWidget {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         DataScreen.id: (context) => DataScreen(),
+        AboutScreen.id: (context) => AboutScreen(),
       },
       
     );

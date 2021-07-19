@@ -1,7 +1,9 @@
+import 'package:attendance_viewer/screens/about_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance_viewer/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -43,14 +45,23 @@ class _DataScreenState extends State<DataScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        leading: null,
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            _auth.signOut();
+            Navigator.pop(context);
+          },
+        ),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AboutScreen.id,
+              );
+            },
+            icon: Icon(Icons.info),
+          )
         ],
         title: Text('✔ Attendance'),
         backgroundColor: Colors.lightBlueAccent,
@@ -90,6 +101,13 @@ class _DataScreenState extends State<DataScreen> {
                             total = 0;
                           });
                           print(Text('Getting data for $date'));
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: 'Please Change Your Date',
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                          );
                         }
                       },
                       child: Text(
