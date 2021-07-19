@@ -3,9 +3,12 @@ import 'package:attendance_viewer/screens/data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance_viewer/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:attendance_viewer/screens/about_screen.dart';
+
+String _errorMesg;
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -20,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
   bool showSpinner = false;
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -86,14 +90,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       showSpinner = false;
                     });
-                  } catch (e) {
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'wrong-password') {
+                      setState(() {
+                        _errorMesg = 'Wrong Password';
+                      });
+                    } else if (e.code == 'invalid-email') {
+                      setState(() {
+                        _errorMesg = 'Invalid Email';
+                      });
+                    } else if (e.code == "user-not-found") {
+                      setState(() {
+                        _errorMesg = 'User Not Found';
+                      });
+                    } else if (e.code == "too-many-requests") {
+                      setState(() {
+                        _errorMesg =
+                            'Requests blocked for this account due to incorrect attempts. Try again later';
+                      });
+                    }
                     print(e);
                     setState(() {
                       showSpinner = false;
                     });
                     Fluttertoast.showToast(
-                      msg: 'Invalid Username or Password',
-                      toastLength: Toast.LENGTH_SHORT,
+                      msg: _errorMesg,
+                      toastLength: Toast.LENGTH_LONG,
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
                     );
