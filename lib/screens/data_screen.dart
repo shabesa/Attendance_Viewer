@@ -9,6 +9,7 @@ final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
 String getForDate;
 int total = 0;
+final messageTextController = TextEditingController();
 
 class DataScreen extends StatefulWidget {
   static const String id = 'data_screen';
@@ -87,6 +88,7 @@ class _DataScreenState extends State<DataScreen> {
                         decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter Date (DD-MM-YYYY)',
                         ),
+                        controller: messageTextController,
                         onChanged: (value) {
                           date = value;
                         },
@@ -99,6 +101,7 @@ class _DataScreenState extends State<DataScreen> {
                           setState(() {
                             getForDate = date;
                             total = 0;
+                            messageTextController.clear();
                           });
                           print(Text('Getting data for $date'));
                         } else {
@@ -184,6 +187,17 @@ class DataFetch extends StatelessWidget {
           height: 560,
           child: Column(
             children: <Widget>[
+              Text(
+                'Showing result for $getForDate',
+                style: TextStyle(
+                  backgroundColor: Colors.white10,
+                  color: Colors.white,
+                  fontSize: 17.0,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: SingleChildScrollView(
