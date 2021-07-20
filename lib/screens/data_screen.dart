@@ -102,6 +102,7 @@ class _DataScreenState extends State<DataScreen> {
                             getForDate = date;
                             total = 0;
                             messageTextController.clear();
+                            FocusScope.of(context).unfocus();
                           });
                           print(Text('Getting data for $date'));
                         } else {
