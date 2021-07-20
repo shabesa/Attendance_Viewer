@@ -1,10 +1,12 @@
 # Attendance_Viewer
 
-A new Flutter project.
+An Add for my Automated Attendance System
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is an extra option for my automated attendance.
+
+- [My Main Project](https://github.com/shabesa/Automated-Attendance-System)
 
 A few resources to get you started if this is your first Flutter project:
 
