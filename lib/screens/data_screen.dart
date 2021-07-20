@@ -205,8 +205,11 @@ class DataFetch extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                        color: Colors.white10),
+                      border: Border.all(
+                        color: Colors.blue,
+                      ),
+                      color: Colors.white10,
+                    ),
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Text(
