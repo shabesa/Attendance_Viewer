@@ -39,6 +39,29 @@ class _DataScreenState extends State<DataScreen> {
   }
 
   String date;
+  DateTime dt = DateTime.now();
+
+  String day, month, year;
+
+  Future<Null> selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: dt,
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != dt) {
+      setState(() {
+        dt = picked;
+        day = dt.day.toString();
+        month = dt.month.toString();
+        year = dt.year.toString();
+        date =
+            int.parse(month) < 10 ? '$day-0$month-$year' : '$day-$month-$year';
+        messageTextController.text = date;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +106,15 @@ class _DataScreenState extends State<DataScreen> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        keyboardType: TextInputType.emailAddress,
+                        showCursor: true,
+                        readOnly: true,
                         textAlign: TextAlign.center,
                         decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Enter Date (DD-MM-YYYY)',
+                          hintText: 'Select Date (DD-MM-YYYY)',
                         ),
                         controller: messageTextController,
-                        onChanged: (value) {
-                          date = value;
+                        onTap: () {
+                          selectDate(context);
                         },
                       ),
                     ),
