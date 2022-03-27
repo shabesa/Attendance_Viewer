@@ -249,7 +249,7 @@ class DataFetch extends StatelessWidget {
                       ),
                       DataColumn(
                         label: Text(
-                          'Verifiaction',
+                          'Verification',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
